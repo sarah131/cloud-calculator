@@ -7,41 +7,40 @@
 </head>
 <body>
   <div class="calc">
-    <input id="d" value="" readonly>
-    <div class="keys">
-      <button type="button" onclick="add('7')">7</button>
-      <button type="button" onclick="add('8')">8</button>
-      <button type="button" onclick="add('9')">9</button>
-      <button type="button" onclick="add('/')">÷</button>
+    <form id="calcForm" onsubmit="event.preventDefault(); calculate();">
+      <input name="expression" id="d" value="">
+      <div class="keys">
+        <button type="button" onclick="add('7')">7</button>
+        <button type="button" onclick="add('8')">8</button>
+        <button type="button" onclick="add('9')">9</button>
+        <button type="button" onclick="add('/')">÷</button>
 
-      <button type="button" onclick="add('4')">4</button>
-      <button type="button" onclick="add('5')">5</button>
-      <button type="button" onclick="add('6')">6</button>
-      <button type="button" onclick="add('*')">×</button>
+        <button type="button" onclick="add('4')">4</button>
+        <button type="button" onclick="add('5')">5</button>
+        <button type="button" onclick="add('6')">6</button>
+        <button type="button" onclick="add('*')">×</button>
 
-      <button type="button" onclick="add('1')">1</button>
-      <button type="button" onclick="add('2')">2</button>
-      <button type="button" onclick="add('3')">3</button>
-      <button type="button" onclick="add('-')">−</button>
+        <button type="button" onclick="add('1')">1</button>
+        <button type="button" onclick="add('2')">2</button>
+        <button type="button" onclick="add('3')">3</button>
+        <button type="button" onclick="add('-')">−</button>
 
-      <button type="button" onclick="add('0')">0</button>
-      <button type="button" onclick="add('.')">.</button>
-      <button type="button" onclick="clearInput()">C</button>
-      <button type="button" onclick="add('+')">+</button>
+        <button type="button" onclick="add('0')">0</button>
+        <button type="button" onclick="add('.')">.</button>
+        <button type="reset" onclick="clearInput()">C</button>
+        <button type="button" onclick="add('+')">+</button>
 
-      <button type="button" class="eq" onclick="calculate()">=</button>
-    </div>
+        <button type="submit" class="eq">=</button>
+      </div>
+    </form>
   </div>
-
   <script>
-    function add(value) {
-      document.getElementById("d").value += value;
+    function add(v) {
+      document.getElementById("d").value += v;
     }
-
     function clearInput() {
       document.getElementById("d").value = '';
     }
-
     async function calculate() {
       const expression = document.getElementById("d").value;
       if (!expression) return;
