@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <title>Flask Cloud Calculator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="calc">
     <form id="calcForm" onsubmit="event.preventDefault(); calculate();">
-      <input name="expression" id="d" value="">
+      <input name="expression" id="d" value="{{ result if result is defined else '' }}">
       <div class="keys">
         <button type="button" onclick="add('7')">7</button>
         <button type="button" onclick="add('8')">8</button>
@@ -34,6 +34,7 @@
       </div>
     </form>
   </div>
+
   <script>
     function add(v) {
       document.getElementById("d").value += v;
@@ -43,23 +44,26 @@
     }
     async function calculate() {
       const expression = document.getElementById("d").value;
-      if (!expression) return;
+      if(!expression) return;
       try {
-        const response = await fetch('https://cloud-backend-bgc7avh2cqcvdae0.centralindia-01.azurewebsites.net/calculate', {
+        let response = await fetch('/calculate', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type': 'application/json'
+          },
           body: JSON.stringify({ expression })
         });
-        const data = await response.json();
-        if (data.result !== undefined) {
+        let data = await response.json();
+        if(data.result !== undefined){
           document.getElementById("d").value = data.result;
         } else {
           document.getElementById("d").value = 'Error';
         }
-      } catch (error) {
+      } catch {
         document.getElementById("d").value = 'Error';
       }
     }
   </script>
+
 </body>
 </html>
